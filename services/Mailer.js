@@ -9,7 +9,7 @@ const fs = require('fs');
 // setApiKey()
 
 const getFileContent = (template_content) => {
-    let contents = fs.readFileSync(`templates/${template_content.template_name}.html`, 'utf-8');
+    let contents = fs.readFileSync(`public/${template_content.template_name}.html`, 'utf-8');
     return contents;
 }
 
