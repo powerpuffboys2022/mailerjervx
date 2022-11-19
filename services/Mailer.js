@@ -1,15 +1,15 @@
-const sgMail = require("@sendgrid/mail");
+// const sgMail = require("@sendgrid/mail");
+const nodeEmailer = require('nodemailer');
 const fs = require('fs');
 
-const setApiKey = async () => { 
-    const key = process.env.SENDGRID_KEY;
-    sgMail.setApiKey(key);
-}
-
-setApiKey()
+// const setApiKey = async () => { 
+//     const key = process.env.SENDGRID_KEY;
+//     sgMail.setApiKey(key);
+// }
+// setApiKey()
 
 const getFileContent = (template_content) => {
-    let contents = fs.readFileSync(`templates/${template_content.template_name}`, 'utf-8');
+    let contents = fs.readFileSync(`templates/${template_content.template_name}.html`, 'utf-8');
     return contents;
 }
 
@@ -18,17 +18,30 @@ const transTemplate = (template_content) => {
     return template(getFileContent(template_content), {...template_content})
 }
 
-const sendMail = async(msg) => {
+const sendMail = (msg) => {
     try{
-        const sent = await sgMail.send(msg);
-        console.log("Emal Sent")
-        return sent;
+        // const sent = await sgMail.send(msg);
+        let smtpTransport = nodeEmailer.createTransport({
+            service: 'Gmail',
+            port: 465,
+            auth: {
+                user: process.env.MAIL,
+                pass: process.env.PASS
+            }
+        });
+        
+        smtpTransport.sendMail(msg, (error, response) => {
+            if (error) console.log("error",error);
+            else console.log('Sucess');
+        });
+    
+        smtpTransport.close();
     }catch(e){
         console.log(e)
     }
 }
 
-const sendEmail = async(userEmail, template_content) => {
+const sendEmail = (userEmail, template_content) => {
     /**
      * user_email : string
      * template_content : {
@@ -39,11 +52,12 @@ const sendEmail = async(userEmail, template_content) => {
     
     let mailOptions = {
         // from: "uptech.coderph@gmail.com",
-        from : "phscapstonesystem@gmail.com",
+        from : process.env.MAIL,
         to: userEmail,
         subject : template_content.subject,    
         html: transTemplate(template_content)
     };
+
     sendMail(mailOptions)
 }
 
