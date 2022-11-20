@@ -34,6 +34,7 @@ const transTemplate = (template_content) => {
 const sendMail = async(msg) => {
     try{
         const sent = await sgMail.send(msg);
+        console.log("SENDING ", sent);
         // let smtpTransport = nodeEmailer.createTransport({
         //     service: 'Gmail',
         //     port: 465,
@@ -70,7 +71,7 @@ const sendEmail = (userEmail, template_content) => {
         subject : template_content.subject,    
         html: transTemplate(template_content)
     };
-
+    console.log("options ", mailOptions.to, mailOptions.from, mailOptions.subject);
     sendMail(mailOptions)
 }
 
