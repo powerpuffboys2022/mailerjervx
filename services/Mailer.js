@@ -3,8 +3,10 @@ const nodeEmailer = require('nodemailer');
 const fs = require('fs');
 
 const setApiKey = async () => { 
+    console.log("Connecting ")
     const key = process.env.SENDGRID_KEY;
     sgMail.setApiKey(key);
+    console.log("Done Connecting")
 }
 setApiKey()
 

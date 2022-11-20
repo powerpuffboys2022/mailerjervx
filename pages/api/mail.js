@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import Mailer from "../../services/Mailer";
+const sendEmail = require("../../helpers/api/emailer");
 
 export default function handler(req, res) {
     const { template, to, name, subject, content, verification } = req.body;
