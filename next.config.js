@@ -3,7 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   env : {
     MAIL : process.env.MAIL,
-    PASS : process.env.PASS
+    PASS : process.env.PASS,
+    SENDGRID_KEY : process.env.SENDGRID_KEY
   }
 }
 
