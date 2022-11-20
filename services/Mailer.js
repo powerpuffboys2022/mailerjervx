@@ -33,6 +33,7 @@ const transTemplate = (template_content) => {
 
 const sendMail = async(msg) => {
     try{
+        console.log("Sending ")
         const sent = await sgMail.send(msg);
         console.log("SENDING ", sent);
         // let smtpTransport = nodeEmailer.createTransport({
